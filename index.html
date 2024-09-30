@@ -6,6 +6,7 @@
 </head>
 <body>
 <div id="auraContainer"></div>
+<div id="auraContainerTest"></div>
 <p>Test External component from SF</p>
 <div data-lightning-out="true"></div>
 
@@ -23,6 +24,19 @@
     "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
   );
 </script>
+
+<script>
+    // Inizializza l'applicazione Lightning
+    $Lightning.use("c:MyTestOutApp", function() {
+        // Crea il componente Aura e montalo nel div specificato
+        $Lightning.createComponent(
+          "c:testPrestito",
+          {},
+          "auraContainerTest");
+      },
+      "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
+    );
+  </script>
 
 <script>
 
