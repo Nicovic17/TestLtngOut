@@ -1,25 +1,56 @@
 <html>
 
 <head>
-  <script src="https://unicoopfirenze--sviluppo.sandbox.my.salesforce.com/lightning/lightning.out.js"></script>
-  <script>
-    // Inizializza l'applicazione Lightning
-    $Lightning.use("c:MyTestOutApp", function() {
-      // Crea il componente Aura e montalo nel div specificato
-      $Lightning.createComponent("c:MyTestOutAppComponent", {}, "auraContainer");
-    }, "https://unicoopfirenze--sviluppo.sandbox.my.salesforce.com");
-  </script>
+  <script src="https://unicoopfirenze--sviluppo.sandbox.my.site.com/lightning/lightning.out.js"></script>
+
 </head>
 <body>
 <div id="auraContainer"></div>
 <p>Test External component from SF</p>
-
-<iframe src="https://unicoopfirenze--sviluppo.sandbox.my.salesforce.com/apex/MyTestOutPage" width="100%" height="600px">
-</iframe>
+<div data-lightning-out="true"></div>
 
 </body>
 
+<script>
+  // Inizializza l'applicazione Lightning
+  $Lightning.use("c:MyTestOutApp", function() {
+      // Crea il componente Aura e montalo nel div specificato
+      $Lightning.createComponent(
+        "c:MyTestOutAppComponent",
+        {},
+        "auraContainer");
+    },
+    "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
+  );
+</script>
 
+<script>
+
+  const appName = 'c:MyTestOutApp';
+  const componentName = 'c:myLWCTest';
+  const lightningEndpoint = 'https://unicoopfirenze--sviluppo.sandbox.my.site.com';
+  const targetElement = document.querySelector("[data-lightning-out]");
+  const componentAttributes = {
+
+  };
+
+  $Lightning.use(
+    appName,
+    function (){
+      $Lightning.createComponent(
+        componentName,
+        componentAttributes,
+        targetElement,
+        function (cmp){
+          console.log('lightning component created');
+        }
+      );
+    },
+    lightningEndpoint
+  );
+
+
+</script>
 
 
 </html>
