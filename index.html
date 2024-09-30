@@ -1,0 +1,18 @@
+<html>
+<head>
+    <script src="https://<your-salesforce-instance>/lightning/lightning.out.js"></script>
+    <script>
+        // Inizializza l'applicazione Lightning
+        $Lightning.use("c:external_component", function() {
+            // Crea il componente Aura e montalo nel div specificato
+            $Lightning.createComponent("c:myAuraComponent", {}, "auraContainer");
+        }, "https://<your-salesforce-instance>");
+    </script>
+</head>
+<body>
+    <!-- Div in cui verrà caricato il componente -->
+    <div id="auraContainer"></div>
+</body>
+</html>
+
+<!--Sostituisci <your-salesforce-instance> con l'URL della tua istanza Salesforce (es. https://yourinstance.salesforce.com).-->
