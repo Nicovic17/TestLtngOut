@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <script src="https://unicoopfirenze--sviluppo.sandbox.my.site.com/lightning/lightning.out.js"></script>
+  <script src="https://unicoopfirenze--preprod.sandbox.my.site.com/lightning/lightning.out.js"></script>
 
 </head>
 <body>
@@ -11,36 +11,37 @@
 <div data-lightning-out="true"></div>
 
 </body>
-
+<!--
 <script>
   // Inizializza l'applicazione Lightning
-  $Lightning.use("c:MyTestOutApp", function() {
+  $Lightning.use("c:testPrestitoApp", function() {
       // Crea il componente Aura e montalo nel div specificato
       $Lightning.createComponent(
-        "c:MyTestOutAppComponent",
+        "c:testPrestitoAppComponent",
         {},
         "auraContainer");
     },
     "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
   );
-</script>
+</script>-->
 
 <script>
     // Inizializza l'applicazione Lightning
-    $Lightning.use("c:MyTestOutApp", function() {
+    $Lightning.use("c:testPrestitoApp", function() {
         // Crea il componente Aura e montalo nel div specificato
         $Lightning.createComponent(
           "c:testPrestito",
           {},
           "auraContainerTest");
       },
-      "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
+      "https://unicoopfirenze--preprod.sandbox.my.site.com"
     );
   </script>
 
+  <!---
 <script>
 
-  const appName = 'c:MyTestOutApp';
+  const appName = 'c:testPrestitoApp';
   const componentName = 'c:myLWCTest';
   const lightningEndpoint = 'https://unicoopfirenze--sviluppo.sandbox.my.site.com';
   const targetElement = document.querySelector("[data-lightning-out]");
@@ -64,7 +65,7 @@
   );
 
 
-</script>
+</script>-->
 
 
 </html>
