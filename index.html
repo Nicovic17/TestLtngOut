@@ -4,9 +4,29 @@
   <script src="https://unicoopfirenze--preprod.sandbox.my.site.com/lightning/lightning.out.js"></script>
 
 </head>
+
+<style>
+  
+  .loader {
+    border: 10px solid #f3f3f3; /* Colore del bordo esterno */
+    border-top: 10px solid #3498db; /* Colore del bordo superiore per l'effetto rotazione */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite; /* Rotazione continua */
+    margin: 100px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+</style>
 <body>
 <div id="auraContainer"></div>
 <div id="auraContainerTest"></div>
+<div class="loader"></div>
 <p>Test External component from SF</p>
 <div data-lightning-out="true"></div>
 
@@ -32,7 +52,10 @@
         $Lightning.createComponent(
           "c:testPrestito",
           {},
-          "auraContainerTest");
+          "auraContainerTest",
+          function(cmp){
+            console.log("component created")
+          });
       },
       "https://unicoopfirenze--preprod.sandbox.my.site.com"
     );
