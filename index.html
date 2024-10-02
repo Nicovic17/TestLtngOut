@@ -6,7 +6,7 @@
 </head>
 
 <style>
-  
+
   .loader {
     border: 10px solid #f3f3f3; /* Colore del bordo esterno */
     border-top: 10px solid #3498db; /* Colore del bordo superiore per l'effetto rotazione */
@@ -23,6 +23,7 @@
   }
   
 </style>
+
 <body>
 <div id="auraContainer"></div>
 <div id="auraContainerTest"></div>
@@ -54,7 +55,7 @@
           {},
           "auraContainerTest",
           function(cmp){
-            console.log("component created")
+            document.querySelector('.loader').style.display = 'none';
           });
       },
       "https://unicoopfirenze--preprod.sandbox.my.site.com"
