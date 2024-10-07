@@ -1,94 +1,106 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="it">
 <head>
-  <script src="https://unicoopfirenze--preprod.sandbox.my.site.com/lightning/lightning.out.js"></script>
-
-</head>
-
-<style>
-  .loader {
-    border: 10px solid #f3f3f3; /* Colore del bordo esterno */
-    border-top: 10px solid #8C0538; /* Colore del bordo superiore per l'effetto rotazione */
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    animation: spin 2s linear infinite; /* Rotazione continua */
-    margin: 100px auto;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-</style>
-
-<body>
-<div id="auraContainer"></div>
-<div id="auraContainerTest"></div>
-<div class="loader"></div>
-<p>Test External component from SF</p>
-<div data-lightning-out="true"></div>
-
-</body>
-<!--
-<script>
-  // Inizializza l'applicazione Lightning
-  $Lightning.use("c:testPrestitoApp", function() {
-      // Crea il componente Aura e montalo nel div specificato
-      $Lightning.createComponent(
-        "c:testPrestitoAppComponent",
-        {},
-        "auraContainer");
-    },
-    "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
-  );
-</script>-->
-
-<script>
-    // Inizializza l'applicazione Lightning
-    $Lightning.use("c:testPrestitoApp", function() {
-        // Crea il componente Aura e montalo nel div specificato
-        $Lightning.createComponent(
-          "c:testPrestito",
-          {},
-          "auraContainerTest",
-          function(cmp){
-            document.querySelector('.loader').style.display = 'none';
-          });
-      },
-      "https://unicoopfirenze--preprod.sandbox.my.site.com"
-    );
-  </script>
-
-  <!---
-<script>
-
-  const appName = 'c:testPrestitoApp';
-  const componentName = 'c:myLWCTest';
-  const lightningEndpoint = 'https://unicoopfirenze--sviluppo.sandbox.my.site.com';
-  const targetElement = document.querySelector("[data-lightning-out]");
-  const componentAttributes = {
-
-  };
-
-  $Lightning.use(
-    appName,
-    function (){
-      $Lightning.createComponent(
-        componentName,
-        componentAttributes,
-        targetElement,
-        function (cmp){
-          console.log('lightning component created');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consenso all'utente con PDF.js</title>
+    <style>
+        #pdf-render {
+            border: 1px solid #000;
+            width: 100%;
+            height: auto;
         }
-      );
-    },
-    lightningEndpoint
-  );
+        #pdf-container {
+            width: 100%;
+            height: 600px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+        }
+        #accept-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leggi il PDF e accetta i termini</h1>
 
+    <!-- Container per il PDF -->
+    <div id="pdf-container">
+        <canvas id="pdf-render"></canvas>
+    </div>
 
-</script>-->
+    <button id="accept-btn" disabled>Accetta</button>
 
+    <!-- Includi PDF.js correttamente -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.1.81/pdf.min.js"></script>
 
+    <script>
+        const url = 'URL_DEL_TUO_PDF'; // Sostituisci con l'URL del tuo PDF
+        const pdfContainer = document.getElementById('pdf-container');
+        const canvas = document.getElementById('pdf-render');
+        const ctx = canvas.getContext('2d');
+        const acceptButton = document.getElementById('accept-btn');
+        
+        let pdfDoc = null,
+            pageNum = 1,
+            pageIsRendering = false,
+            pageNumIsPending = null,
+            totalPages = 0;
+
+        // Imposta il worker della libreria PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.1.81/pdf.worker.min.js';
+
+        // Funzione per il rendering della pagina
+        const renderPage = (num) => {
+            pageIsRendering = true;
+
+            // Ottieni la pagina
+            pdfDoc.getPage(num).then((page) => {
+                const viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                page.render(renderCtx).promise.then(() => {
+                    pageIsRendering = false;
+
+                    if (pageNumIsPending !== null) {
+                        renderPage(pageNumIsPending);
+                        pageNumIsPending = null;
+                    }
+                });
+
+                // Memorizza il numero di pagine
+                totalPages = pdfDoc.numPages;
+            });
+        };
+
+        // Carica il PDF e visualizza la prima pagina
+        const loadPDF = () => {
+            pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
+                pdfDoc = pdfDoc_;
+                renderPage(pageNum);
+            });
+        };
+
+        // Verifica quando l'utente ha scrollato fino alla fine del PDF
+        pdfContainer.addEventListener('scroll', function() {
+            const scrollTop = pdfContainer.scrollTop;
+            const scrollHeight = pdfContainer.scrollHeight;
+            const clientHeight = pdfContainer.clientHeight;
+
+            // Abilita il bottone quando l'utente raggiunge la fine del documento
+            if (scrollTop + clientHeight >= scrollHeight) {
+                acceptButton.disabled = false;
+            }
+        });
+
+        // Carica il PDF
+        loadPDF();
+    </script>
+</body>
 </html>
