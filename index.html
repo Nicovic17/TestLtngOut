@@ -1,4 +1,93 @@
-<iframe src="https://aem-portal-stage.coopfirenze.it/content/dam/unicoop/essere-soci/prestito-sociale/pdf/pdf-lancio/regolamento_prestito_sociale.pdf" width="100%" height="600px">
-    Il tuo browser non supporta la visualizzazione di PDF. Scarica il PDF 
-    <a href="https://aem-portal-stage.coopfirenze.it/content/dam/unicoop/essere-soci/prestito-sociale/pdf/pdf-lancio/regolamento_prestito_sociale.pdf">qui</a>.
-</iframe>
+<html>
+
+<head>
+  <script src="https://unicoopfirenze--preprod.sandbox.my.site.com/lightning/lightning.out.js"></script>
+
+</head>
+
+<style>
+  .loader {
+    border: 10px solid #f3f3f3; /* Colore del bordo esterno */
+    border-top: 10px solid #8C0538; /* Colore del bordo superiore per l'effetto rotazione */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite; /* Rotazione continua */
+    margin: 100px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+</style>
+
+<body>
+<div id="auraContainer"></div>
+<div id="auraContainerTest"></div>
+<div class="loader"></div>
+<div data-lightning-out="true"></div>
+
+</body>
+<!--
+<script>
+  // Inizializza l'applicazione Lightning
+  $Lightning.use("c:testPrestitoApp", function() {
+      // Crea il componente Aura e montalo nel div specificato
+      $Lightning.createComponent(
+        "c:testPrestitoAppComponent",
+        {},
+        "auraContainer");
+    },
+    "https://unicoopfirenze--sviluppo.sandbox.my.site.com"
+  );
+</script>-->
+
+<script>
+    // Inizializza l'applicazione Lightning
+    $Lightning.use("c:testPrestitoApp", function() {
+        // Crea il componente Aura e montalo nel div specificato
+        $Lightning.createComponent(
+          "c:testPrestito",
+          {},
+          "auraContainerTest",
+          function(cmp){
+            document.querySelector('.loader').style.display = 'none';
+          });
+      },
+      "https://unicoopfirenze--preprod.sandbox.my.site.com"
+    );
+  </script>
+
+  <!---
+<script>
+
+  const appName = 'c:testPrestitoApp';
+  const componentName = 'c:myLWCTest';
+  const lightningEndpoint = 'https://unicoopfirenze--sviluppo.sandbox.my.site.com';
+  const targetElement = document.querySelector("[data-lightning-out]");
+  const componentAttributes = {
+
+  };
+
+  $Lightning.use(
+    appName,
+    function (){
+      $Lightning.createComponent(
+        componentName,
+        componentAttributes,
+        targetElement,
+        function (cmp){
+          console.log('lightning component created');
+        }
+      );
+    },
+    lightningEndpoint
+  );
+
+
+</script>-->
+
+
+</html>
